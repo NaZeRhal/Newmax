@@ -2,4 +2,12 @@
 <resources>
 
     <style name="Theme.Newmax" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="LaunchTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/primary</item>
+
+<!--        <item name="splashScreenIconSize">48dp</item>-->
+<!--        <item name="windowSplashScreenAnimatedIcon">@drawable/onboarding_three</item>-->
+        <item name="postSplashScreenTheme">@style/Theme.Newmax</item>
+    </style>
 </resources>

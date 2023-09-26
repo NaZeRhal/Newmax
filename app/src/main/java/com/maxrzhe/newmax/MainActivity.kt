@@ -3,41 +3,105 @@ package com.maxrzhe.newmax
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.maxrzhe.newmax.ui.theme.NewmaxTheme
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.maxrzhe.newmax.navigation.LocalNavController
+import com.maxrzhe.newmax.navigation.ROOT_GRAPH
+import com.maxrzhe.newmax.navigation.TOPICS_SELECTION_GRAPH
+import com.maxrzhe.newmax.navigation.newsNavGraph
+import com.maxrzhe.newmax.navigation.topicsSelectionNavGraph
+import com.maxrzhe.newmax.screens.bottom_bar.AppBottomBar
+import com.maxrzhe.newmax.screens.header.AppTopBar
+import com.maxrzhe.newmax.theme.NewmaxTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.KoinAndroidContext
+import org.koin.core.annotation.KoinExperimentalAPI
 
 class MainActivity : ComponentActivity() {
+
+  private val isSplashShowing = MutableStateFlow(true)
+
+  @OptIn(KoinExperimentalAPI::class)
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
+    WindowCompat.setDecorFitsSystemWindows(window, false)
+    lifecycleScope.launch {
+      delay(2000)
+      isSplashShowing.update { false }
+    }
+
+    val splashScreen = installSplashScreen()
+    splashScreen.setKeepOnScreenCondition {
+      isSplashShowing.value
+    }
+
     setContent {
-      NewmaxTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-          Greeting("Android")
+      val navController = rememberNavController()
+      val currentBackStackEntry by navController.currentBackStackEntryAsState()
+
+      CompositionLocalProvider(LocalNavController provides navController) {
+        KoinAndroidContext {
+          NewmaxTheme(
+//            dynamicColor = true
+          ) {
+            Surface(
+              modifier = Modifier.fillMaxSize()
+//                .consumeWindowInsets(WindowInsets.systemBars.only(WindowInsetsSides.Top))
+            ) {
+              Scaffold(
+                modifier = Modifier,
+                topBar = {
+                  AppTopBar()
+                },
+                bottomBar = {
+                  if (currentBackStackEntry?.destination?.parent?.route != TOPICS_SELECTION_GRAPH) {
+                    AppBottomBar()
+                  }
+                }
+              ) { paddings ->
+                Column(modifier = Modifier.padding(paddings)) {
+//                Spacer(
+//                  modifier = Modifier
+//                    .fillMaxWidth()
+//                    .windowInsetsTopHeight(WindowInsets.systemBars)
+//                )
+                  NavHost(
+                    navController = navController,
+                    startDestination = TOPICS_SELECTION_GRAPH,
+                    route = ROOT_GRAPH
+                  ) {
+                    topicsSelectionNavGraph()
+                    newsNavGraph()
+                  }
+//                  Spacer(
+//                    modifier = Modifier
+//                      .fillMaxWidth()
+//                      .windowInsetsBottomHeight(WindowInsets.navigationBars)
+//                  )
+                }
+              }
+            }
+          }
         }
       }
     }
-  }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-  Text(
-    text = "Hello $name!",
-    modifier = modifier
-  )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-  NewmaxTheme {
-    Greeting("Android")
   }
 }

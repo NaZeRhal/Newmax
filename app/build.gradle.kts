@@ -50,12 +50,22 @@ android {
 
 dependencies {
 
+  implementation(project(":theme"))
+  implementation(project(":feature:onboarding"))
+
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.lifecycle.runtime.ktx)
   implementation(libs.androidx.activity.compose)
 
   implementation(platform(libs.compose.bom))
   implementation(libs.bundles.compose)
+  implementation(libs.compose.navigation)
+
+  implementation(libs.koin.android)
+  implementation(libs.koin.compose)
+
+  implementation(libs.splashscreen)
+
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)

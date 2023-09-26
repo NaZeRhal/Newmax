@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "Newmax"
 include(":app")
 include(":feature:onboarding")
+include(":theme")
