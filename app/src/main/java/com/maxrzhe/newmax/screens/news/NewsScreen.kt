@@ -126,7 +126,7 @@ fun NewsScreen(
     )
     Spacer(modifier = Modifier.height(16.dp))
     RecommendedNews(
-      recommendation = state.news,
+      recommendation = state.news.shuffled(),
       onArticleClick = onArticleClick
     )
   }
@@ -252,17 +252,19 @@ fun HighlightedNews(
           .size(256.dp)
           .background(
             color = MaterialTheme.colorScheme.background,
-            shape = RoundedCornerShape(32.dp)
+            shape = MaterialTheme.shapes.extraLarge
           )
           .clickable {
             onArticleClick(item.id)
           },
       ) {
         Image(
-          modifier = Modifier.clip(RoundedCornerShape(32.dp)),
+          modifier = Modifier
+            .size(256.dp)
+            .clip(MaterialTheme.shapes.extraLarge),
           painter = painterResource(id = item.image),
           contentDescription = null,
-          contentScale = ContentScale.Fit
+          contentScale = ContentScale.Crop
         )
         Column(
           modifier = Modifier.fillMaxSize(),
@@ -288,7 +290,12 @@ fun HighlightedNews(
               .fillMaxWidth()
               .background(
                 brush = textGradient,
-                shape = RoundedCornerShape(32.dp)
+                shape = RoundedCornerShape(
+                  topStart = 0.dp,
+                  topEnd = 0.dp,
+                  bottomStart = 24.dp,
+                  bottomEnd = 24.dp
+                )
               )
               .padding(24.dp),
             horizontalAlignment = Alignment.Start
@@ -365,10 +372,10 @@ fun ArticleCard(
     horizontalArrangement = Arrangement.SpaceBetween
   ) {
     Image(
-      modifier = Modifier.size(96.dp),
+      modifier = Modifier.size(96.dp).clip(MaterialTheme.shapes.medium),
       painter = painterResource(id = article.image),
       contentDescription = "article image",
-      contentScale = ContentScale.Fit
+      contentScale = ContentScale.Crop
     )
     Column(
       modifier = Modifier

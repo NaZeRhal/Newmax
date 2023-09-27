@@ -77,7 +77,12 @@ class MainActivity : ComponentActivity() {
             Scaffold(
               modifier = Modifier.fillMaxSize(),
               topBar = {
-                AppTopBar(destination = destination)
+                AppTopBar(
+                  destination = destination,
+                  onBackPressed = {
+                    navController.popBackStack()
+                  }
+                )
               },
               bottomBar = {
                 if (showBottomBar) {

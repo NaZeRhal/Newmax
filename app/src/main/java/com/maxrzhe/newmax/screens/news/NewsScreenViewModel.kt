@@ -14,7 +14,7 @@ class NewsScreenViewModel : ViewModel() {
 
   init {
     _state.update {
-      it.copy(news = dummyNews)
+      it.copy(news = dummyNews.shuffled())
     }
   }
 
