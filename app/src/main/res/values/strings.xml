@@ -2,6 +2,7 @@
     <string name="app_name">Newmax</string>
     <string name="topics">Select your favorite topics</string>
     <string name="news_list">Browse</string>
+    <string name="details">Details</string>
     <string name="categories">Categories</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="profile">Profile</string>

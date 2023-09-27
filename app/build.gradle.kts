@@ -65,6 +65,7 @@ dependencies {
   implementation(libs.koin.compose)
 
   implementation(libs.splashscreen)
+  implementation(libs.androidx.activity)
 
 
   testImplementation(libs.junit)

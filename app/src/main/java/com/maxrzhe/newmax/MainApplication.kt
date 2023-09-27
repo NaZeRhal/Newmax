@@ -5,6 +5,8 @@ import com.maxrzhe.newmax.di.appDiModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
+const val TAG = "NEWMAX_LOGS"
+
 class MainApplication : Application() {
 
   override fun onCreate() {

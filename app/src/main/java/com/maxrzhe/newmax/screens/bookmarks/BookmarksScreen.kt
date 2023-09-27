@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,25 +20,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.maxrzhe.newmax.navigation.Destination
+import com.maxrzhe.newmax.navigation.LocalNavController
 import com.maxrzhe.newmax.screens.news.ArticleCard
+import com.maxrzhe.newmax.utils.applyTopBarHeight
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun BookmarksScreenHoist(viewModel: BookmarksViewModel = koinViewModel()) {
   val state by viewModel.state.collectAsState()
+  val navController = LocalNavController.current
 
   BookmarksScreen(
-    state = state
+    state = state,
+    onArticleClick = {
+      navController.navigate(Destination.Details(articleId = it))
+    }
   )
 }
 
 @Composable
 fun BookmarksScreen(
-  state: BookmarksState = BookmarksState()
+  state: BookmarksState = BookmarksState(),
+  onArticleClick: (Int) -> Unit = {}
 ) {
   Column(
     modifier = Modifier
-      .fillMaxWidth()
+      .fillMaxSize()
       .padding(horizontal = 20.dp),
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
@@ -54,10 +63,16 @@ fun BookmarksScreen(
       verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
       items(state.savedNews) { item ->
-        ArticleCard(item)
+        ArticleCard(
+          article = item,
+          onArticleClick = onArticleClick
+        )
       }
       items(state.savedNews) { item ->
-        ArticleCard(item)
+        ArticleCard(
+          article = item,
+          onArticleClick = onArticleClick
+        )
       }
     }
   }

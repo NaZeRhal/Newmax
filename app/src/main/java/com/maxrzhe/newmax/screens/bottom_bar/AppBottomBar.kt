@@ -28,8 +28,9 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.maxrzhe.newmax.R
+import com.maxrzhe.newmax.navigation.Destination
 import com.maxrzhe.newmax.navigation.LocalNavController
-import com.maxrzhe.newmax.navigation.Screen
+import com.maxrzhe.newmax.navigation.NEWS_GRAPH
 
 @Composable
 fun AppBottomBarHoist() {
@@ -95,27 +96,27 @@ val bottomNavigationItems = listOf(
     selectedIcon = Icons.Filled.Home,
     unselectedIcon = Icons.Outlined.Home,
     hasNews = false,
-    route = Screen.NewsList.route
+    route = NEWS_GRAPH
   ),
   BottomNavigationItem(
     titleResId = R.string.categories,
     selectedIcon = Icons.Filled.ViewComfyAlt,
     unselectedIcon = Icons.Outlined.ViewComfyAlt,
     hasNews = false,
-    route = Screen.Categories.route
+    route = Destination.Categories.fullRoute
   ),
   BottomNavigationItem(
     titleResId = R.string.bookmarks,
     selectedIcon = Icons.Filled.Bookmark,
     unselectedIcon = Icons.Outlined.BookmarkBorder,
     hasNews = false,
-    route = Screen.Bookmarks.route
+    route = Destination.Bookmarks.fullRoute
   ),
   BottomNavigationItem(
     titleResId = R.string.profile,
     selectedIcon = Icons.Filled.Person,
     unselectedIcon = Icons.Outlined.Person,
     hasNews = true,
-    route = Screen.Profile.route
+    route = Destination.Profile.fullRoute
   ),
 )

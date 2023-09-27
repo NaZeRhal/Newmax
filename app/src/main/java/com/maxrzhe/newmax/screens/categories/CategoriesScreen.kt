@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.maxrzhe.newmax.screens.topics.Categories
+import com.maxrzhe.newmax.utils.applyTopBarHeight
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -46,7 +48,7 @@ fun CategoriesScreen(
 ) {
   Column(
     modifier = Modifier
-      .fillMaxWidth()
+      .fillMaxSize()
       .padding(horizontal = 20.dp),
     horizontalAlignment = Alignment.CenterHorizontally
   ) {

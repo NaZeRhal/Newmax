@@ -29,8 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.maxrzhe.newmax.navigation.HOME_GRAPH
 import com.maxrzhe.newmax.navigation.LocalNavController
-import com.maxrzhe.newmax.navigation.NEWS_GRAPH
 import com.maxrzhe.newmax.navigation.TOPICS_SELECTION_GRAPH
 import com.maxrzhe.newmax.theme.NewmaxTheme
 import org.koin.androidx.compose.koinViewModel
@@ -58,7 +58,7 @@ fun TopicsSelection(
   Column(
     modifier = Modifier
       .fillMaxSize()
-      .padding(horizontal = 20.dp),
+      .padding(start = 20.dp, end = 20.dp),
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
     Row(
@@ -67,7 +67,6 @@ fun TopicsSelection(
       Text(
         text = "Select some of your favorite topics to let us suggest better news for you",
         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Normal),
-//        color = MaterialTheme.colorScheme.onSurfaceVariant,
         textAlign = TextAlign.Start
       )
     }
@@ -99,7 +98,7 @@ fun TopicsSelection(
 //        contentColor = MaterialTheme.colorScheme.onPrimary
 //      ),
       onClick = {
-        navController.navigate(NEWS_GRAPH) {
+        navController.navigate(HOME_GRAPH) {
           popUpTo(TOPICS_SELECTION_GRAPH) {
             inclusive = true
           }

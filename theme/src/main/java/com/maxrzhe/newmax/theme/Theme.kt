@@ -116,10 +116,10 @@ fun NewmaxTheme(
   if (!view.isInEditMode) {
     SideEffect {
       val window = (view.context as Activity).window
-      window.statusBarColor = Color.Transparent.toArgb()
-      window.navigationBarColor = Color.Transparent.toArgb()
+      window.statusBarColor = Color.Black.toArgb()
+      window.navigationBarColor = Color.Black.toArgb()
       WindowCompat.getInsetsController(window, view).apply {
-        isAppearanceLightStatusBars = !darkTheme
+        isAppearanceLightStatusBars = false
         isAppearanceLightNavigationBars = true
       }
     }

@@ -52,6 +52,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.maxrzhe.newmax.navigation.Destination
+import com.maxrzhe.newmax.navigation.LocalNavController
 import com.maxrzhe.newmax.screens.topics.Categories
 import com.maxrzhe.newmax.theme.NewmaxTheme
 import com.maxrzhe.newmax.theme.onImageBackground
@@ -63,13 +65,18 @@ import org.koin.androidx.compose.koinViewModel
 fun NewsScreenHoist(viewModel: NewsScreenViewModel = koinViewModel()) {
   val state by viewModel.state.collectAsState()
 
+  val navController = LocalNavController.current
+
   NewsScreen(
     state = state,
     onSearch = { viewModel.onEvent(NewsScreenEvent.OnSearch(it)) },
     onQueryChange = { viewModel.onEvent(NewsScreenEvent.OnQueryChanged(it)) },
     onActiveChange = { viewModel.onEvent(NewsScreenEvent.OnSearchBarActiveChanged(it)) },
     onChipSelected = { viewModel.onEvent(NewsScreenEvent.OnChipSelected(it)) },
-    onMarkArticle = { viewModel.onEvent(NewsScreenEvent.OnMarkArticle(it)) }
+    onMarkArticle = { viewModel.onEvent(NewsScreenEvent.OnMarkArticle(it)) },
+    onArticleClick = {
+      navController.navigate(Destination.Details(articleId = it))
+    }
   )
 }
 
@@ -80,11 +87,12 @@ fun NewsScreen(
   onSearch: (String) -> Unit = {},
   onActiveChange: (Boolean) -> Unit = {},
   onChipSelected: (Int) -> Unit = {},
-  onMarkArticle: (Int) -> Unit = {}
+  onMarkArticle: (Int) -> Unit = {},
+  onArticleClick: (Int) -> Unit = {}
 ) {
 
   Column(
-    modifier = Modifier.fillMaxWidth(),
+    modifier = Modifier.fillMaxSize(),
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     Row(
@@ -113,10 +121,14 @@ fun NewsScreen(
     )
     HighlightedNews(
       news = state.news,
-      onMarkArticle = onMarkArticle
+      onMarkArticle = onMarkArticle,
+      onArticleClick = onArticleClick
     )
     Spacer(modifier = Modifier.height(16.dp))
-    RecommendedNews(state.news)
+    RecommendedNews(
+      recommendation = state.news,
+      onArticleClick = onArticleClick
+    )
   }
 }
 
@@ -220,7 +232,8 @@ fun TopicChips(
 @Composable
 fun HighlightedNews(
   news: List<Article> = emptyList(),
-  onMarkArticle: (Int) -> Unit
+  onMarkArticle: (Int) -> Unit = {},
+  onArticleClick: (Int) -> Unit = {}
 ) {
   val textGradient = Brush.verticalGradient(
     colors = listOf(Color.Transparent, onImageBackground.copy(alpha = 0.8f)),
@@ -240,7 +253,10 @@ fun HighlightedNews(
           .background(
             color = MaterialTheme.colorScheme.background,
             shape = RoundedCornerShape(32.dp)
-          ),
+          )
+          .clickable {
+            onArticleClick(item.id)
+          },
       ) {
         Image(
           modifier = Modifier.clip(RoundedCornerShape(32.dp)),
@@ -298,7 +314,8 @@ fun HighlightedNews(
 
 @Composable
 fun RecommendedNews(
-  recommendation: List<Article> = emptyList()
+  recommendation: List<Article> = emptyList(),
+  onArticleClick: (Int) -> Unit = {}
 ) {
   Row(
     modifier = Modifier
@@ -327,17 +344,24 @@ fun RecommendedNews(
     verticalArrangement = Arrangement.spacedBy(8.dp)
   ) {
     items(recommendation) { item ->
-      ArticleCard(item)
+      ArticleCard(
+        article = item,
+        onArticleClick = onArticleClick
+      )
     }
   }
 }
 
 @Composable
-fun ArticleCard(article: Article) {
+fun ArticleCard(
+  article: Article,
+  onArticleClick: (Int) -> Unit
+) {
   Row(
     modifier = Modifier
       .fillMaxWidth()
-      .height(96.dp),
+      .height(96.dp)
+      .clickable { onArticleClick(article.id) },
     horizontalArrangement = Arrangement.SpaceBetween
   ) {
     Image(
