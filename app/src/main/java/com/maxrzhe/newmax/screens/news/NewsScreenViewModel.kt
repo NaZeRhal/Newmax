@@ -14,7 +14,10 @@ class NewsScreenViewModel : ViewModel() {
 
   init {
     _state.update {
-      it.copy(news = dummyNews.shuffled())
+      it.copy(
+        news = dummyNews.shuffled(),
+        recommendations = dummyNews.shuffled().take(5)
+      )
     }
   }
 
@@ -52,10 +55,12 @@ class NewsScreenViewModel : ViewModel() {
       is NewsScreenEvent.OnMarkArticle -> {
         val news = state.value.news
         val existingArticle = news.firstOrNull { it.id == event.id }
+
         existingArticle?.let {
+          val index = news.indexOf(existingArticle)
           val updatedArticle = existingArticle.copy(marked = !existingArticle.marked)
           val updateArticles =
-            news.filter { it.id != event.id }.plus(updatedArticle).sortedBy { it.id }
+            news.slice(0..<index).plus(updatedArticle).plus(news.slice(index + 1..news.lastIndex))
           _state.update {
             it.copy(news = updateArticles)
           }
@@ -78,6 +83,7 @@ data class NewsScreenState(
   val query: String = "",
   val selectedChipIndex: Int = 0,
   val news: List<Article> = emptyList(),
+  val recommendations: List<Article> = emptyList(),
   val isSearchBarActive: Boolean = false,
   val searchHistory: List<String> = emptyList()
 )

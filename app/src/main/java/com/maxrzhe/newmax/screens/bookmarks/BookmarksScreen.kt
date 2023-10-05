@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import com.maxrzhe.newmax.navigation.Destination
 import com.maxrzhe.newmax.navigation.LocalNavController
 import com.maxrzhe.newmax.screens.news.ArticleCard
-import com.maxrzhe.newmax.utils.applyTopBarHeight
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -62,12 +61,6 @@ fun BookmarksScreen(
       modifier = Modifier.fillMaxWidth(),
       verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-      items(state.savedNews) { item ->
-        ArticleCard(
-          article = item,
-          onArticleClick = onArticleClick
-        )
-      }
       items(state.savedNews) { item ->
         ArticleCard(
           article = item,

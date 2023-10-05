@@ -126,7 +126,7 @@ fun NewsScreen(
     )
     Spacer(modifier = Modifier.height(16.dp))
     RecommendedNews(
-      recommendation = state.news.shuffled(),
+      recommendation = state.recommendations,
       onArticleClick = onArticleClick
     )
   }

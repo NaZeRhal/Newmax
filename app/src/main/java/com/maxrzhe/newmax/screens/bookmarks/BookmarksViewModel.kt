@@ -15,7 +15,7 @@ class BookmarksViewModel : ViewModel() {
 
   init {
     _state.update {
-      it.copy(savedNews = dummyNews)
+      it.copy(savedNews = dummyNews.shuffled().take(8))
     }
   }
 }

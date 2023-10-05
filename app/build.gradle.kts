@@ -51,6 +51,10 @@ android {
 dependencies {
 
   implementation(project(":theme"))
+  implementation(project(":data"))
+  implementation(project(":data_api"))
+  implementation(project(":domain"))
+  implementation(project(":core"))
   implementation(project(":feature:onboarding"))
 
   implementation(libs.androidx.core.ktx)
