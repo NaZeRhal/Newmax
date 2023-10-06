@@ -1,0 +1,47 @@
+CREATE TABLE topHeadlineEntity(
+    id TEXT NOT NULL PRIMARY KEY,
+    author TEXT,
+    title TEXT,
+    description TEXT,
+    content TEXT,
+    url TEXT,
+    urlToImage TEXT,
+    sourceId TEXT,
+    sourceName TEXT,
+    category TEXT NOT NULL,
+    publishedAt TEXT
+);
+
+insertTopHeadline:
+INSERT OR REPLACE
+INTO topHeadlineEntity(
+    id,
+    author,
+    title,
+    description,
+    content,
+    url,
+    urlToImage,
+    sourceId,
+    sourceName,
+    category,
+    publishedAt
+) VALUES ?;
+
+deleteAll:
+DELETE FROM topHeadlineEntity;
+
+deleteByCategory:
+DELETE FROM topHeadlineEntity
+WHERE category =: category;
+
+getById:
+SELECT * FROM topHeadlineEntity
+WHERE id =: id;
+
+searchTopHeadlines:
+SELECT * FROM topHeadlineEntity
+WHERE category=:category
+AND (LOWER(title) LIKE '%' || LOWER(:query) || '%'
+OR LOWER(description) LIKE '%' || LOWER(:query) || '%'
+OR LOWER(content) LIKE '%' || LOWER(:query) || '%');

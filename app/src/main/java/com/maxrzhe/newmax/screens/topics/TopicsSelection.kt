@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.maxrzhe.newmax.core.models.NewsCategory
 import com.maxrzhe.newmax.navigation.HOME_GRAPH
 import com.maxrzhe.newmax.navigation.LocalNavController
 import com.maxrzhe.newmax.navigation.TOPICS_SELECTION_GRAPH
@@ -77,12 +78,12 @@ fun TopicsSelection(
       horizontalArrangement = Arrangement.spacedBy(20.dp),
       verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-      itemsIndexed(Categories.values()) { index, item ->
+      itemsIndexed(NewsCategory.values()) { index, item ->
         TopicSelectionItem(
           modifier = Modifier
             .clip(MaterialTheme.shapes.large)
             .clickable { onSelectionChanged(index) },
-          data = item,
+          category = item,
           isSelected = state.selectedItems.contains(index),
         )
       }
@@ -117,7 +118,7 @@ fun TopicsSelection(
 @Composable
 fun TopicSelectionItem(
   modifier: Modifier = Modifier,
-  data: Categories,
+  category: NewsCategory,
   isSelected: Boolean
 ) {
   Box(
@@ -138,7 +139,7 @@ fun TopicSelectionItem(
     contentAlignment = Alignment.Center
   ) {
     Text(
-      text = "${data.icon}      ${data.title}",
+      text = category.name,
       style = MaterialTheme.typography.titleMedium.copy(
         fontWeight = FontWeight.SemiBold
       ),

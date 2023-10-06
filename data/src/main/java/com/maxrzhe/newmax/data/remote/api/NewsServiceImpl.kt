@@ -19,16 +19,16 @@ class NewsServiceImpl(
   override suspend fun getTopHeadlines(category: String): List<Article?> {
     return try {
       val response = client.get {
-        url(
-          HttpRouts.createUrlString(
-            HttpRouts.TOP_HEADLINES,
-            mapOf(
-              "category" to category,
-              "country" to Locale.getDefault().country,
-              "pageSize" to 100,
-            )
+        val urlString = HttpRouts.createUrlString(
+          HttpRouts.TOP_HEADLINES,
+          mapOf(
+            "category" to category,
+            "country" to Locale.getDefault().country,
+            "pageSize" to 100,
           )
         )
+        Log.w(TAG, "**** URL **** $urlString")
+        url(urlString)
       }
       val topHeadlines: TopHeadlinesResponse = response.body()
       topHeadlines.articles ?: emptyList()

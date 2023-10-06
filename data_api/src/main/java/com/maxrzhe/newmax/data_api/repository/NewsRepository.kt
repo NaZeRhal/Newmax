@@ -11,4 +11,6 @@ interface NewsRepository {
     query: String,
     category: String
   ): Flow<Resource<List<ArticleModel>>>
+
+  fun getArticleById(articleId: String): Flow<Resource<ArticleModel?>>
 }

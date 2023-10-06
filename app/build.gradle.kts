@@ -55,6 +55,7 @@ dependencies {
   implementation(project(":data_api"))
   implementation(project(":domain"))
   implementation(project(":core"))
+  implementation(project(":common"))
   implementation(project(":feature:onboarding"))
 
   implementation(libs.androidx.core.ktx)

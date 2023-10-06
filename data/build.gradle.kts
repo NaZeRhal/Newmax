@@ -3,6 +3,7 @@ plugins {
   alias(libs.plugins.android.library)
   alias(libs.plugins.kotlin.android)
   alias(libs.plugins.kotlinx.serialization)
+  alias(libs.plugins.sqldelight.plugin)
 }
 
 android {
@@ -43,12 +44,24 @@ dependencies {
   implementation(libs.ktor.serialization.kotlinx.json)
   implementation(libs.ktor.client.content.negotiation)
   implementation(libs.ktor.client.logging.jvm)
+
   implementation(libs.kotlinx.coroutines.android)
   implementation(libs.kotlinx.serialization)
+
+  implementation(libs.sqldelight.android.driver)
+  implementation(libs.sqldelight.coroutines.extensions)
 
   implementation(libs.koin.android)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)
+}
+
+sqldelight {
+  databases {
+    create("NewsDatabase") {
+      packageName.set("com.maxrzhe.newmax.data.database")
+    }
+  }
 }

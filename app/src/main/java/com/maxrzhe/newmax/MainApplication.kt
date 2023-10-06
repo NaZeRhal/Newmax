@@ -3,10 +3,9 @@ package com.maxrzhe.newmax
 import android.app.Application
 import com.maxrzhe.newmax.data.di.dataDiModule
 import com.maxrzhe.newmax.di.appDiModule
+import com.maxrzhe.newmax.domain.di.domainDiModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-
-const val TAG = "NEWMAX_LOGS"
 
 class MainApplication : Application() {
 
@@ -15,7 +14,7 @@ class MainApplication : Application() {
 
     startKoin {
       androidContext(this@MainApplication)
-      modules(appDiModule, dataDiModule)
+      modules(appDiModule, dataDiModule, domainDiModule)
     }
   }
 }

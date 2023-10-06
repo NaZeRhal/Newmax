@@ -35,9 +35,13 @@ dependencies {
 
   implementation(project(":data_api"))
   implementation(project(":core"))
+  implementation(project(":common"))
+
   implementation(libs.androidx.core.ktx)
   implementation(libs.kotlinx.coroutines.android)
   implementation(libs.kotlinx.serialization)
+
+  implementation(libs.koin.android)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)

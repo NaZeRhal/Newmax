@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.maxrzhe.newmax.core.models.NewsCategory
 import com.maxrzhe.newmax.screens.topics.Categories
 import com.maxrzhe.newmax.utils.applyTopBarHeight
 import org.koin.androidx.compose.koinViewModel
@@ -66,12 +67,12 @@ fun CategoriesScreen(
       horizontalArrangement = Arrangement.spacedBy(20.dp),
       verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-      itemsIndexed(Categories.values()) { index, item ->
+      itemsIndexed(NewsCategory.values()) { index, item ->
         CategoryItem(
           modifier = Modifier
             .clip(MaterialTheme.shapes.large)
             .clickable { onSelectionChanged(index) },
-          data = item,
+          category = item,
           isSelected = state.selectedItems.contains(index),
         )
       }
@@ -82,7 +83,7 @@ fun CategoriesScreen(
 @Composable
 fun CategoryItem(
   modifier: Modifier = Modifier,
-  data: Categories,
+  category: NewsCategory,
   isSelected: Boolean
 ) {
   Box(
@@ -103,7 +104,7 @@ fun CategoryItem(
     contentAlignment = Alignment.Center
   ) {
     Text(
-      text = "${data.icon}      ${data.title}",
+      text = category.name,
       style = MaterialTheme.typography.titleMedium.copy(
         fontWeight = FontWeight.SemiBold
       ),
